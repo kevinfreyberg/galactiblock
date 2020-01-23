@@ -114,15 +114,27 @@ violet_block = Block(violetImg, violetX, violetY)
 
 #LEFT BUTTON
 leftButtonImg = pygame.image.load("Game Assets\\left_button.png").convert_alpha()
+leftButtonImgPressed = pygame.image.load("Game Assets\\left_button_pressed.png")
+leftB = [leftButtonImg, leftButtonImgPressed]
+left_pressed = False
 
 #RIGHT BUTTON
 rightButtonImg = pygame.image.load("Game Assets\\right_button.png")
+rightButtonImgPressed = pygame.image.load("Game Assets\\right_button_pressed.png")
+rightB = [rightButtonImg, rightButtonImgPressed]
+right_pressed = False
 
 #UP BUTTON
 upButtonImg = pygame.image.load("Game Assets\\up_button.png")
+upButtonImgPressed = pygame.image.load("Game Assets\\up_button_pressed.png")
+upB = [upButtonImg, upButtonImgPressed]
+up_pressed = False
 
 #DOWN BUTTON
 downButtonImg = pygame.image.load("Game Assets\\down_button.png")
+downButtonImgPressed = pygame.image.load("Game Assets\\down_button_pressed.png")
+downB = [downButtonImg, downButtonImgPressed]
+down_pressed = False
 
 #COLLISION
 def Collision(BlockX, BlockY, ButtonX, ButtonY):
@@ -248,13 +260,14 @@ class Level1(GameStates):
         GameStates.__init__(self)
         self.next = 'level_select'
     def pygame_event(self, event):
-        global start, redY, seafoamY, missed_value, redChange, seafoamChange, score_value
+        global start, redY, seafoamY, missed_value, redChange, seafoamChange, score_value, left_pressed, right_pressed
         collisionRed = Collision(redX, redY, 306, 532) #checks for collisions between button and blocks
         collisionSeafoam = Collision(seafoamX, seafoamY, 494, 532)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 start = True
             if event.key == pygame.K_LEFT:
+                left_pressed = True
                 if collisionRed:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -263,6 +276,7 @@ class Level1(GameStates):
                     increase_difficulty()
                     redChange = random.uniform(IntervalA, IntervalB)
             if event.key == pygame.K_RIGHT:
+                right_pressed = True
                 if collisionSeafoam:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -283,7 +297,11 @@ class Level1(GameStates):
                 time.sleep(.25)
                 start = False
                 self.done = True
-
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                left_pressed = False
+            if event.key == pygame.K_RIGHT:
+                right_pressed = False
     def update(self, screen, dt):
         self.draw(screen)
         global redY, seafoamY, missed_value, redChange, seafoamChange
@@ -318,18 +336,27 @@ class Level1(GameStates):
             break
 
     def draw(self, screen):
+        global left_pressed, right_pressed
         screen.fill((0,0,0))
         screen.blit(background,(0,0))
         red_block.spawn(redImg, redX, redY), seafoam_block.spawn(seafoamImg, seafoamX, seafoamY)
-        screen.blit(leftButtonImg, (274, 532)), screen.blit(rightButtonImg, (462, 532))
+        if left_pressed == True:
+            screen.blit(leftB[1], (274, 532)) 
+        elif left_pressed == False:
+            screen.blit(leftB[0], (274, 532))
+        if right_pressed == True:
+            screen.blit(rightB[1], (462, 532))
+        elif right_pressed == False:
+            screen.blit(rightB[0], (462, 532))
         show_score(textX, textY), show_missed(missedX, missedY, 4), personal_record(highX, highY, 'level1')
+        
 
 class Level2(GameStates):
     def __init__(self):
         GameStates.__init__(self)
         self.next = 'level_select'
     def pygame_event(self, event):
-        global start, redY, seafoamY, missed_value, redChange, seafoamChange, score_value, jadeY, jadeChange
+        global start, redY, seafoamY, missed_value, redChange, seafoamChange, score_value, jadeY, jadeChange, right_pressed, left_pressed, up_pressed
         collisionRed = Collision(redX, redY, 306, 532) #checks for collisions between button and blocks
         collisionJade = Collision(jadeX, jadeY, 434, 532)
         collisionSeafoam = Collision(530, seafoamY, 562, 532)
@@ -337,6 +364,7 @@ class Level2(GameStates):
             if event.key == pygame.K_SPACE:
                 start = True
             if event.key == pygame.K_LEFT:
+                left_pressed = True
                 if collisionRed:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -345,6 +373,7 @@ class Level2(GameStates):
                     increase_difficulty()
                     redChange = random.uniform(IntervalA, IntervalB)
             if event.key == pygame.K_RIGHT:
+                right_pressed = True
                 if collisionSeafoam:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -353,6 +382,7 @@ class Level2(GameStates):
                     increase_difficulty()
                     seafoamChange = random.uniform(IntervalA, IntervalB)
             if event.key == pygame.K_UP:
+                up_pressed = True
                 if collisionJade:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -374,7 +404,13 @@ class Level2(GameStates):
                 start = False
                 self.done = True
                 self.next = "level_select"
-
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                left_pressed = False
+            if event.key == pygame.K_RIGHT:
+                right_pressed = False
+            if event.key == pygame.K_UP:
+                up_pressed = False
     def update(self, screen, dt):
         self.draw(screen)
         global redY, seafoamY, missed_value, redChange, seafoamChange, jadeY, jadeChange
@@ -415,10 +451,22 @@ class Level2(GameStates):
             break
 
     def draw(self, screen):
+        global left_pressed, right_pressed, up_pressed
         screen.fill((0,0,0))
         screen.blit(background_level2,(0,0))
         red_block.spawn(redImg, redX, redY), seafoam_block.spawn(seafoamImg, 530, seafoamY), jade_block.spawn(jadeImg, jadeX, jadeY)
-        screen.blit(leftButtonImg, (274, 532)), screen.blit(upButtonImg, (402, 532)), screen.blit(rightButtonImg, (530, 532))
+        if left_pressed == True:
+            screen.blit(leftB[1], (274, 532)) 
+        elif left_pressed == False:
+            screen.blit(leftB[0], (274, 532))
+        if right_pressed == True:
+            screen.blit(rightB[1], (530, 532))
+        elif right_pressed == False:
+            screen.blit(rightB[0], (530, 532))
+        if up_pressed == True:
+            screen.blit(upB[1], (402, 532))
+        elif up_pressed == False:
+            screen.blit(upB[0], (402, 532))
         show_score(textX, textY), show_missed(missedX, missedY, 6), personal_record(highX, highY, 'level2')
 
 class Level3(GameStates):
@@ -426,7 +474,7 @@ class Level3(GameStates):
         GameStates.__init__(self)
         self.next = 'level_select'
     def pygame_event(self, event):
-        global start, redY, seafoamY, missed_value, redChange, seafoamChange, score_value, jadeY, jadeChange, violetY, violetChange
+        global start, redY, seafoamY, missed_value, redChange, seafoamChange, score_value, jadeY, jadeChange, violetY, violetChange, left_pressed, right_pressed, up_pressed, down_pressed
         collisionRed = Collision(redX, redY, 306, 532) #checks for collisions between button and blocks
         collisionJade = Collision(jadeX, jadeY, 434, 532)
         collisionViolet = Collision(violetX, violetY, 562, 532)
@@ -435,6 +483,7 @@ class Level3(GameStates):
             if event.key == pygame.K_SPACE:
                 start = True
             if event.key == pygame.K_LEFT:
+                left_pressed = True
                 if collisionRed:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -443,6 +492,7 @@ class Level3(GameStates):
                     increase_difficulty()
                     redChange = random.uniform(IntervalA, IntervalB)
             if event.key == pygame.K_RIGHT:
+                right_pressed = True
                 if collisionSeafoam:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -451,6 +501,7 @@ class Level3(GameStates):
                     increase_difficulty()
                     seafoamChange = random.uniform(IntervalA, IntervalB)
             if event.key == pygame.K_UP:
+                up_pressed = True
                 if collisionJade:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -459,6 +510,7 @@ class Level3(GameStates):
                     increase_difficulty()
                     jadeChange = random.uniform(IntervalA, IntervalB)
             if event.key == pygame.K_DOWN:
+                down_pressed = True
                 if collisionViolet:
                     sound = mixer.Sound('Game Assets\\collision.wav')
                     sound.play()
@@ -480,7 +532,15 @@ class Level3(GameStates):
                 start = False
                 self.done = True
                 self.next = "level_select"
-
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                left_pressed = False
+            if event.key == pygame.K_RIGHT:
+                right_pressed = False
+            if event.key == pygame.K_UP:
+                up_pressed = False
+            if event.key == pygame.K_DOWN:
+                down_pressed = False
     def update(self, screen, dt):
         self.draw(screen)
         global redY, seafoamY, missed_value, redChange, seafoamChange, jadeY, jadeChange, violetY, violetChange
@@ -529,10 +589,26 @@ class Level3(GameStates):
             break
 
     def draw(self, screen):
+        global left_pressed, right_pressed, up_pressed, down_pressed
         screen.fill((0,0,0))
         screen.blit(background_level3,(0,0))
         red_block.spawn(redImg, redX, redY), seafoam_block.spawn(seafoamImg, 658, seafoamY), jade_block.spawn(jadeImg, jadeX, jadeY), violet_block.spawn(violetImg, violetX, violetY)
-        screen.blit(leftButtonImg, (274, 532)), screen.blit(upButtonImg, (402, 532)), screen.blit(downButtonImg, (530, 532)), screen.blit(rightButtonImg, (658, 532))
+        if left_pressed == True:
+            screen.blit(leftB[1], (274, 532)) 
+        elif left_pressed == False:
+            screen.blit(leftB[0], (274, 532))
+        if right_pressed == True:
+            screen.blit(rightB[1], (658, 532))
+        elif right_pressed == False:
+            screen.blit(rightB[0], (658, 532))
+        if up_pressed == True:
+            screen.blit(upB[1], (402, 532))
+        elif up_pressed == False:
+            screen.blit(upB[0], (402, 532))
+        if down_pressed == True:
+            screen.blit(downB[1], (530, 532))
+        elif down_pressed == False:
+            screen.blit(downB[0], (530, 532))
         show_score(textX, textY), show_missed(missedX, missedY, 8), personal_record(highX, highY, 'level3')
 
 class GameControl:
