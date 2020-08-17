@@ -1,3 +1,4 @@
+from os import path
 import pygame
 import sys
 import math
@@ -8,17 +9,17 @@ import time
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600)) #creates window screen
-background = pygame.image.load('Game Assets\\background.png').convert_alpha() #background
-background_level2 = pygame.image.load("Game Assets\\background2.png").convert_alpha()
-background_level3 = pygame.image.load("Game Assets\\background3.png").convert_alpha()
-main_menu = pygame.image.load("Game Assets\\main_menu.png").convert()
-level_select_23locked = pygame.image.load("Game Assets\\level_select_23locked.png").convert()
-level_select_3locked = pygame.image.load("Game Assets\\level_select_3locked.png").convert()
-level_select_full = pygame.image.load("Game Assets\\level_select.png").convert()
-mixer.music.load("Game Assets\\background_music.mp3") #loads background music
+background = pygame.image.load(path.join("Game Assets","background.png")).convert_alpha() #background
+background_level2 = pygame.image.load(path.join("Game Assets","background2.png")).convert_alpha()
+background_level3 = pygame.image.load(path.join("Game Assets","background3.png")).convert_alpha()
+main_menu = pygame.image.load(path.join("Game Assets","main_menu.png")).convert()
+level_select_23locked = pygame.image.load(path.join("Game Assets","level_select_23locked.png")).convert()
+level_select_3locked = pygame.image.load(path.join("Game Assets","level_select_3locked.png")).convert()
+level_select_full = pygame.image.load(path.join("Game Assets","level_select.png")).convert()
+mixer.music.load(path.join("Game Assets","background_music.mp3")) #loads background music
 mixer.music.play(-1)
 pygame.display.set_caption("Galactiblock") #icon and title
-icon = pygame.image.load('Game Assets\\icon.png')
+icon = pygame.image.load(path.join("Game Assets","icon.png"))
 pygame.display.set_icon(icon)
 
 class Block: #block class
@@ -32,7 +33,7 @@ class Block: #block class
 
 #PRESS SPACE TO BEGIN
 start = False
-press_start_font = pygame.font.Font('Game Assets\\slkscr.ttf', 42)
+press_start_font = pygame.font.Font(path.join("Game Assets","slkscr.ttf"), 42)
 
 def press_to_start():
     space_start = press_start_font.render('PRESS SPACE TO BEGIN', True, (255,255,255))
@@ -44,7 +45,7 @@ unlocked = shelve.open('game_data')
 
 #SCORE
 score_value = 0
-font = pygame.font.Font('Game Assets\\slkscr.ttf', 36)
+font = pygame.font.Font(path.join("Game Assets","slkscr.ttf"), 36)
 textX = 10
 textY = 10
 
@@ -71,7 +72,7 @@ def show_missed(x, y, num):
     screen.blit(missed, (x, y))
 
 #GAME OVER
-game_over_font = pygame.font.Font('Game Assets\\slkscr.ttf', 80)
+game_over_font = pygame.font.Font(path.join("Game Assets","slkscr.ttf"), 80)
 def game_over():
     game_over_text = game_over_font.render('GAME OVER', True, (255,0,0))
     screen.blit(game_over_text, (160,250))
@@ -85,54 +86,54 @@ IntervalA = 2.8
 IntervalB = 3.8
 
 #RED BLOCKS
-redImg = pygame.image.load("Game Assets\\red_block.png").convert()
+redImg = pygame.image.load(path.join("Game Assets","red_block.png")).convert()
 redX = 274
 redY = random.randint(-1472, -128) #randomizes intial y-position
 redChange = random.uniform(IntervalA, IntervalB) #randomizes intial speed
 red_block = Block(redImg, redX, redY)
 
 #SEA-FOAM BLOCKS
-seafoamImg = pygame.image.load("Game Assets\\seafoam_block.png").convert()
+seafoamImg = pygame.image.load(path.join("Game Assets","seafoam_block.png")).convert()
 seafoamX = 462
 seafoamY = random.randint(-1472, -128) #randomizes intial y-position
 seafoamChange = random.uniform(IntervalA, IntervalB) #randomizes initial speed
 seafoam_block = Block(seafoamImg, seafoamX, seafoamY)
 
 #JADE BLOCKS
-jadeImg = pygame.image.load("Game Assets\\bluegreen_block.png").convert()
+jadeImg = pygame.image.load(path.join("Game Assets","bluegreen_block.png")).convert()
 jadeX = 402
 jadeY = random.randint(-1472, -128) #randomizes initial y-position
 jadeChange = random.uniform(IntervalA, IntervalB) #randomizes initial speed
 jade_block = Block(jadeImg, jadeX, jadeY)
 
 #VIOLET BLOCKS
-violetImg = pygame.image.load("Game Assets\\violet_block.png").convert()
+violetImg = pygame.image.load(path.join("Game Assets","violet_block.png")).convert()
 violetX = 530
 violetY = random.randint(-1472, -128) #randomizes initial y-position
 violetChange = random.uniform(IntervalA, IntervalB) #randomizes initial speed
 violet_block = Block(violetImg, violetX, violetY)
 
 #LEFT BUTTON
-leftButtonImg = pygame.image.load("Game Assets\\left_button.png").convert_alpha()
-leftButtonImgPressed = pygame.image.load("Game Assets\\left_button_pressed.png")
+leftButtonImg = pygame.image.load(path.join("Game Assets","left_button.png")).convert_alpha()
+leftButtonImgPressed = pygame.image.load(path.join("Game Assets","left_button_pressed.png"))
 leftB = [leftButtonImg, leftButtonImgPressed]
 left_pressed = False
 
 #RIGHT BUTTON
-rightButtonImg = pygame.image.load("Game Assets\\right_button.png")
-rightButtonImgPressed = pygame.image.load("Game Assets\\right_button_pressed.png")
+rightButtonImg = pygame.image.load(path.join("Game Assets","right_button.png"))
+rightButtonImgPressed = pygame.image.load(path.join("Game Assets","right_button_pressed.png"))
 rightB = [rightButtonImg, rightButtonImgPressed]
 right_pressed = False
 
 #UP BUTTON
-upButtonImg = pygame.image.load("Game Assets\\up_button.png")
-upButtonImgPressed = pygame.image.load("Game Assets\\up_button_pressed.png")
+upButtonImg = pygame.image.load(path.join("Game Assets","up_button.png"))
+upButtonImgPressed = pygame.image.load(path.join("Game Assets","up_button_pressed.png"))
 upB = [upButtonImg, upButtonImgPressed]
 up_pressed = False
 
 #DOWN BUTTON
-downButtonImg = pygame.image.load("Game Assets\\down_button.png")
-downButtonImgPressed = pygame.image.load("Game Assets\\down_button_pressed.png")
+downButtonImg = pygame.image.load(path.join("Game Assets","down_button.png"))
+downButtonImgPressed = pygame.image.load(path.join("Game Assets","down_button_pressed.png"))
 downB = [downButtonImg, downButtonImgPressed]
 down_pressed = False
 
@@ -182,13 +183,13 @@ class Menu(GameStates):
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos() 
             if play_button.collidepoint(pos): #this checks whether or not the button was pressed
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 self.next = "level_select"
                 self.done = True
             if quit_button.collidepoint(pos):
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 pygame.quit()
@@ -210,27 +211,27 @@ class LevelSelect(GameStates):
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             if level_1.collidepoint(pos):
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 self.next = "level1"
                 self.done = True
             if level_2.collidepoint(pos):
                 if unlocked['level_select'] == 2 or unlocked['level_select'] == 3:
-                    select = mixer.Sound("Game Assets\\select.wav")
+                    select = mixer.Sound(path.join("Game Assets","select.wav"))
                     select.play()
                     time.sleep(.25)
                     self.next = "level2"
                     self.done = True
             if level_3.collidepoint(pos):
                 if unlocked['level_select'] == 3:
-                    select = mixer.Sound("Game Assets\\select.wav")
+                    select = mixer.Sound(path.join("Game Assets","select.wav"))
                     select.play()
                     time.sleep(.25)
                     self.next = 'level3'
                     self.done = True
             if reset_prog.collidepoint(pos):
-                reset = mixer.Sound("Game Assets\\reset.wav")
+                reset = mixer.Sound(path.join("Game Assets","reset.wav"))
                 reset.play()
                 unlocked['level_select'] = 1
                 record['level1'] = 0
@@ -238,7 +239,7 @@ class LevelSelect(GameStates):
                 record['level3'] = 0
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 self.next = "main_menu"
@@ -269,7 +270,7 @@ class Level1(GameStates):
             if event.key == pygame.K_LEFT:
                 left_pressed = True
                 if collisionRed:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     redY = random.randint(-320, -128)
@@ -278,7 +279,7 @@ class Level1(GameStates):
             if event.key == pygame.K_RIGHT:
                 right_pressed = True
                 if collisionSeafoam:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     seafoamY = random.randint(-320, -128)
@@ -292,7 +293,7 @@ class Level1(GameStates):
                 missed_value = 0
                 score_value = 0
                 reset()
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 start = False
@@ -308,12 +309,12 @@ class Level1(GameStates):
         if start == False:
             press_to_start()
         if redY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             redY = random.randint(-1472, -128)
         if seafoamY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             seafoamY = random.randint(-1472, -128)
@@ -366,7 +367,7 @@ class Level2(GameStates):
             if event.key == pygame.K_LEFT:
                 left_pressed = True
                 if collisionRed:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     redY = random.randint(-1472, -128)
@@ -375,7 +376,7 @@ class Level2(GameStates):
             if event.key == pygame.K_RIGHT:
                 right_pressed = True
                 if collisionSeafoam:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     seafoamY = random.randint(-1472, -128)
@@ -384,7 +385,7 @@ class Level2(GameStates):
             if event.key == pygame.K_UP:
                 up_pressed = True
                 if collisionJade:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     jadeY = random.randint(-1472, -128)
@@ -398,7 +399,7 @@ class Level2(GameStates):
                 missed_value = 0
                 score_value = 0
                 reset()
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 start = False
@@ -417,17 +418,17 @@ class Level2(GameStates):
         if start == False:
             press_to_start()
         if redY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             redY = random.randint(-1472, -128)
         if seafoamY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             seafoamY = random.randint(-1472, -128)
         if jadeY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             jadeY = random.randint(-1472, -128)
@@ -485,7 +486,7 @@ class Level3(GameStates):
             if event.key == pygame.K_LEFT:
                 left_pressed = True
                 if collisionRed:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     redY = random.randint(-1472, -128)
@@ -494,7 +495,7 @@ class Level3(GameStates):
             if event.key == pygame.K_RIGHT:
                 right_pressed = True
                 if collisionSeafoam:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     seafoamY = random.randint(-1472, -128)
@@ -503,7 +504,7 @@ class Level3(GameStates):
             if event.key == pygame.K_UP:
                 up_pressed = True
                 if collisionJade:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     jadeY = random.randint(-1472, -128)
@@ -512,7 +513,7 @@ class Level3(GameStates):
             if event.key == pygame.K_DOWN:
                 down_pressed = True
                 if collisionViolet:
-                    sound = mixer.Sound('Game Assets\\collision.wav')
+                    sound = mixer.Sound(path.join("Game Assets","collision.wav"))
                     sound.play()
                     score_value += 1
                     violetY = random.randint(-1472, -128)
@@ -526,7 +527,7 @@ class Level3(GameStates):
                 missed_value = 0
                 score_value = 0
                 reset()
-                select = mixer.Sound("Game Assets\\select.wav")
+                select = mixer.Sound(path.join("Game Assets","select.wav"))
                 select.play()
                 time.sleep(.25)
                 start = False
@@ -547,22 +548,22 @@ class Level3(GameStates):
         if start == False:
             press_to_start()
         if redY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             redY = random.randint(-1472, -128)
         if seafoamY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             seafoamY = random.randint(-1472, -128)
         if jadeY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             jadeY = random.randint(-1472, -128)
         if violetY >= 574:
-            missed = mixer.Sound("Game Assets\\missed.wav")
+            missed = mixer.Sound(path.join("Game Assets","missed.wav"))
             missed.play()
             missed_value += 1
             violetY = random.randint(-1472, -128)
